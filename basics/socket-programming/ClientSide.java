@@ -1,30 +1,35 @@
-// client side prgram to show the implementation of socket programming
-import java.net.*;
 import java.io.*;
-import java.util.*;
+import java.net.*;
 
-public class ClientSide{
-    public static void main(String args[]){
-        // open your connection to a server, at port 1254
-        try{
-            Socket cs = new Socket("localhost", 1254);
-             // get the input file handle from the socket and read the imput
-            Scanner ins = new Scanner(cs.getInputStream());
-            PrintWriter outs = new PrintWriter(cs.getOutputStream(), true);
-             // perform IO
-            outs.println("Hello server");
-            String s = ins.nextLine();
-            System.out.println("From server:"+s);
+public class ClientSide {
+    public static void main(String[] args) {
+        try {
+            // Create a socket to connect to the server
+            Socket socket = new Socket("localhost", 12345);
 
-            // close the strams and connection
-            ins.close();
-            outs.close();
-            cs.close();
+            // Create input and output streams for the socket
+            BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-        }
-        catch (IOException e){
+            // Read a number from the user
+            BufferedReader userInput = new BufferedReader(new InputStreamReader(System.in));
+            System.out.print("Enter a number: ");
+            String number = userInput.readLine();
+
+            // Send the number to the server
+            out.println(number);
+
+            // Read and display the response from the server
+            String response = in.readLine();
+            System.out.println(response);
+
+            // Close the socket and streams
+            in.close();
+            out.close();
+            userInput.close();
+            socket.close();
+        } catch (IOException e) {
             e.printStackTrace();
-        }       
-
+        }
     }
 }

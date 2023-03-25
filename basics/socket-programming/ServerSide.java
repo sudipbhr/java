@@ -1,31 +1,34 @@
-// server side program to show the socket implementation in java
-import java.net.*;
 import java.io.*;
-import java.util.*;
+import java.net.*;
 
 public class ServerSide {
-    public static void main(String args[]) throws IOException{
-        // registering the service at the port 1254
-        ServerSocket ss = new ServerSocket(1254);
-        
-        // wait and accept the connection request from the client
-        Socket cs = ss.accept();
+    public static void main(String[] args) {
+        try {
+            // Create a server socket
+            ServerSocket serverSocket = new ServerSocket(12345);
 
-        // get a communication stream associated with the socket
-        Scanner ins = new Scanner(cs.getInputStream());
-        PrintWriter outs = new PrintWriter(cs.getOutputStream(), true);
+            // Wait for a client to connect
+            Socket clientSocket = serverSocket.accept();
+            System.out.println("Client connected.");
 
-        // perform IO operation
-        String s = ins.nextLine();
-        System.out.println("from client: "+s);
-        outs.println("hello client");
+            // Create input and output streams for the socket
+            BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+            PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
 
-        // close the streams and connections
+            // Read the number from the client and display it
+            String number = in.readLine();
+            System.out.println("Number received: " + number);
 
-        outs.close();
-        ins.close();
-        cs.close();
-        ss.close();
+             // Send a response to the client
+            out.println("Number " + number + " received");
 
+            // Close the socket and streams
+            in.close();
+            out.close();
+            clientSocket.close();
+            serverSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
