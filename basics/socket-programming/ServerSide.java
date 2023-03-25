@@ -18,7 +18,7 @@ public class ServerSide {
         // perform IO operation
         String s = ins.nextLine();
         System.out.println("from client: "+s);
-        outs.println("hello client"):
+        outs.println("hello client");
 
         // close the streams and connections
 
