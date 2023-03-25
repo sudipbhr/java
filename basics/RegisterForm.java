@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.sql.*;
 public class RegisterForm {
     JFrame frame;
     JLabel label1, label2, label3, label4, label5, label6, label7, label8, label9, label10;
@@ -132,5 +133,20 @@ public class RegisterForm {
     }
     public static void main(String[] args){
         new RegisterForm();
+        try{
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "root", "");
+            Statement stmt = con.createStatement();
+            ResultSet rs = stmt.executeQuery("select * from details");
+            // while(rs.next()){
+
+            // }
+            System.out.println(rs);
+            System.out.println("Connected");
+
+        }
+        catch(Exception e){
+            System.out.println(e);
+        }
     }
 }
